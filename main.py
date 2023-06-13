@@ -14,11 +14,11 @@ LETTER_VALUES={'a': 1, 'e': 1, 'i': 1, 'o': 1, 'n': 1, 'r': 1, 't': 1, 'l': 1, '
  'd': 2, 'g': 2, 'f': 4, 'h': 4, 'v': 4, 'w': 4, 'y': 4, 'b': 3, 'c': 3, 'm': 3,
  'p': 3, 'k': 5, 'j': 8, 'x': 8, 'q': 10, 'z': 10}
 ALL_WORDS=[cl.strip().lower() for cl in open('words_list.txt')]
-INSRUCTIONS_TEXT="Use the letters to make words\n"
-INSRUCTIONS_TEXT+="The value of each letter is shown.\n"
-INSRUCTIONS_TEXT+="50 point bonus for using all the letters in a word.\n"
-INSRUCTIONS_TEXT+="To give up on finding a word, press Escape. \n" 
-INSRUCTIONS_TEXT+="(If no word was possible, the letters will reset.\n Otherwise the game is over.) \n" 
+instructions_text=["Use the letters to make words."]
+instructions_text+=["The point value of each letter isshown."]
+instructions_text+=["50 points bonus for using all the letters."]
+instructions_text+=["To give up on finding a word, press Escape."] 
+instructions_text+=["(If no word was possible, the letters will reset.\n Otherwise the game is over.)"]
 
 window=Tk()
 
@@ -32,9 +32,9 @@ top_frame.pack()
 def instructions():
 	how_window=Toplevel()
 	how_window.title("Instructions")
-	how_label=Label(how_window,text=INSRUCTIONS_TEXT, font = ('helvetica', 20))
-	how_label.pack()
-how_button=Button(top_frame,text="How to play",font = ('helvetica', 20),command=instructions)
+	for tx in instructions_text:
+		Label(how_window,text=tx, font = ('helvetica', 20)).pack()
+how_button=Button(top_frame,text="How to play",font = ('helvetica', 20),command=instructions, bg="light blue"	)
 how_button.pack(side=RIGHT,padx=100)
 
 
@@ -139,8 +139,13 @@ class Game():
 			self.ent.delete(0,len(self.ent.get()))
 			self.fleet=Fleet()                     
 	def game_over(self):
-		board.delete(ALL)
-		board.create_text(board.winfo_width()/2, board.winfo_height()/2,font=('consolas',70), fill='orange',text="GAME OVER",tag="gameover")
+		#board.delete(ALL)
+		board.create_text(board.winfo_width()/2, board.winfo_height()/2,font=('consolas',70), fill='red',text="GAME OVER",tag="gameover")
+		words_possible=all_subset_words(self.fleet.string_on_board, ALL_WORDS)
+		t=Text(window)
+		t.insert(END,f"Subwords of {self.fleet.string_on_board}:\n"+", ".join(words_possible))
+		t.config(font=('consolas',12))
+		t.pack()
 
 def word_score(word):
 	return sum([LETTER_VALUES[c] for c in word])+50*(len(word)==NUM_LETTERS)
