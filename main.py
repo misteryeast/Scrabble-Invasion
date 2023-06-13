@@ -15,7 +15,7 @@ LETTER_VALUES={'a': 1, 'e': 1, 'i': 1, 'o': 1, 'n': 1, 'r': 1, 't': 1, 'l': 1, '
  'p': 3, 'k': 5, 'j': 8, 'x': 8, 'q': 10, 'z': 10}
 ALL_WORDS=[cl.strip().lower() for cl in open('words_list.txt')]
 instructions_text=["Use the letters to make words."]
-instructions_text+=["The point value of each letter isshown."]
+instructions_text+=["The point value of each letter is shown."]
 instructions_text+=["50 points bonus for using all the letters."]
 instructions_text+=["To give up on finding a word, press Escape."] 
 instructions_text+=["(If no word was possible, the letters will reset.\n Otherwise the game is over.)"]
