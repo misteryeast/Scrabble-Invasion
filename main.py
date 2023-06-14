@@ -84,6 +84,7 @@ class Game():
 		for i in range(NUM_LETTERS):
 			self.fleet.y_vals[i]+=1
 			if self.fleet.y_vals[i]>GAME_HEIGHT:
+				self.gameover=True
 				self.game_over()
 				break
 		self.score_label.config(text = "Score:{}".format(self.score))		
@@ -174,7 +175,7 @@ class Fleet():
 		self.positions_available=list(range(NUM_LETTERS))
 		self.positions_typed=[]
 
-alphabet = [chr(value) for value in range(97, 123)]
+alphabet = [chr(value) for value in range(97, 200)]
 
 game=Game()
 
@@ -190,7 +191,8 @@ game.next_turn(game.score_label)
 def check_word(word):
 	return word in ALL_WORDS
 
-for c in alphabet:
+for i in list(range(33,60))+list(range(61,127)):
+	c=chr(i)
 	window.bind(c, lambda event,c=c: game.pressed(c))
 	window.bind(c.upper(), lambda event,c=c: game.pressed(c))
 window.bind('<Escape>', game.pressed_Esc)
